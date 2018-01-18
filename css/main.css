@@ -7,6 +7,11 @@ h1 {
     top: 100px;
 }
 
+#title {
+    font-size: 65px;
+    font-weight: bold;
+}
+
 html {
     background-color: #333333;
 }
@@ -22,7 +27,7 @@ html {
     z-index: -1;
 }
 
-li {
+li, p {
     font-family: 'arial';
     font-weight: bold;
     background-color: #7DD6EA;
@@ -38,6 +43,12 @@ li {
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+#play {
+    font-size: 70px;
+    top: 360px;
+    left: 540px;
 }
 
 #answer-1 {
@@ -71,7 +82,7 @@ li {
     right: 50px;
 }
 
-li:hover {
+li:hover, p:hover {
     border: 5px solid white;
 }
 

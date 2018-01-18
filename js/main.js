@@ -117,12 +117,18 @@ var randomNumber;
 var answerChosen;
 var counterCorrectAnswers = 0;
 var currentQuestion;
+var intro = document.getElementById('intro');
+var allQuestions = document.getElementById('allQuestions');
+var results = document.getElementById('results');
+var next = document.getElementById('next');
 
 function init() {
-    nextQuestion();
+    allQuestions.style.display = 'none';
+    results.style.display = 'none';
+    next.style.display = 'none';
 
-    var next = document.getElementById('next');
-    next.addEventListener('click', nextQuestion);
+    var play = document.getElementById('play');
+    play.addEventListener('click', nextQuestion);
     
     answerChosen = document.getElementsByClassName('answer');
     
@@ -132,6 +138,12 @@ function init() {
 }
 
 function nextQuestion () {
+    next.removeEventListener('click', nextQuestion);
+
+    intro.style.display = 'none';
+    allQuestions.style.display = 'block';
+    next.style.display = 'block';
+
     randomNumber = Math.floor(Math.random() * questions.length);
 
     currentQuestion = questions[randomNumber];
@@ -149,6 +161,13 @@ function nextQuestion () {
     }
 
     questions.splice(randomNumber, 1);
+}
+
+function resultPage () {
+    allQuestions.style.display = 'none';
+    next.style.display = 'none';
+    results.style.display = 'block';
+    
 }
 
 function checkAnswer(e) {
@@ -178,6 +197,14 @@ function checkAnswer(e) {
 
     for (i=0; i < answerChosen.length; i++) {
         answerChosen[i].removeEventListener('click', checkAnswer);
+    }
+
+    if (questions.length == 0) {
+        next.addEventListener('click', resultPage);
+    }
+
+    else {
+        next.addEventListener('click', nextQuestion);
     }
 
     console.log (counterCorrectAnswers);
