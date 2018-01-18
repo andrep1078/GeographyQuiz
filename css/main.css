@@ -7,7 +7,7 @@ h1 {
     top: 100px;
 }
 
-#title {
+#title, #title2 {
     font-size: 65px;
     font-weight: bold;
 }

@@ -167,6 +167,9 @@ function resultPage () {
     allQuestions.style.display = 'none';
     next.style.display = 'none';
     results.style.display = 'block';
+
+    var scoreText = document.getElementById ('score');
+    scoreText.innerHTML = counterCorrectAnswers + '/10';
     
 }
 
