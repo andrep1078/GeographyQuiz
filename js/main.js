@@ -113,102 +113,112 @@ var questions = [
         ]
     },
 ]
-var randomNumber;
-var answerChosen;
-var counterCorrectAnswers = 0;
-var currentQuestion;
-var intro = document.getElementById('intro');
-var allQuestions = document.getElementById('allQuestions');
-var results = document.getElementById('results');
-var next = document.getElementById('next');
+var randomNumber; //number used to select a random question
+var answerChosen; //answer clicked by player
+var counterCorrectAnswers = 0; //counts how many questions have been answered correctly
+var currentQuestion; //questions that is currently being shown
+var intro = document.getElementById('intro'); //intro page
+var allQuestions = document.getElementById('allQuestions'); //division with html for questions
+var results = document.getElementById('results'); //results page
+var next = document.getElementById('next'); //button for next question
 
 function init() {
+    //code to only display the intro division
     allQuestions.style.display = 'none';
     results.style.display = 'none';
     next.style.display = 'none';
 
+    //code to start quiz once player clicks in "play" button
     var play = document.getElementById('play');
     play.addEventListener('click', nextQuestion);
     
+    //creates an array of all answers of current question
     answerChosen = document.getElementsByClassName('answer');
     
+    //allows all answer choices to be clickable
     for (i=0; i < answerChosen.length; i++) {
         answerChosen[i].addEventListener('click', checkAnswer);
     }     
 }
 
 function nextQuestion () {
+    //doesn't allow player to skip questions
     next.removeEventListener('click', nextQuestion);
 
+    //only displays allQuestions division of html
     intro.style.display = 'none';
     allQuestions.style.display = 'block';
     next.style.display = 'block';
 
+    //gives a random number from 0 to the questions array length and stores it in randomNumber
     randomNumber = Math.floor(Math.random() * questions.length);
 
+    //stores que question in the index chosen preciously into currentQuestion
     currentQuestion = questions[randomNumber];
 
+    //changes the text in the html file for the question text stored in currentQuestion
     var question = document.getElementById('question');
     question.innerHTML = currentQuestion.question;
 
+    //changes text in html for the answer choices stored in currentQuestion
     for (i=0; i < 4; i++) {
         var answer = document.getElementById('answer-' + (i+1));
         answer.innerHTML = currentQuestion.answers[i];
 
-        answer.className = "answer";
+        answer.className = "answer"; //gives the class name "answer" to each answer (erasing "incorrect" or  "correct" from previous)
 
-        answer.addEventListener('click', checkAnswer);
+        answer.addEventListener('click', checkAnswer); //makes all answers clickable again
     }
 
-    questions.splice(randomNumber, 1);
+    questions.splice(randomNumber, 1); //removes question displayed from questions array
 }
 
 function resultPage () {
+    //only displays results division from html
     allQuestions.style.display = 'none';
     next.style.display = 'none';
     results.style.display = 'block';
 
+    //changes the text of the score in the result page to the result of the player
     var scoreText = document.getElementById ('score');
     scoreText.innerHTML = counterCorrectAnswers + '/10';
     
 }
 
 function checkAnswer(e) {
-    var clickedButton = e.currentTarget;
-    var answerText = clickedButton.textContent;
+    var clickedButton = e.currentTarget; //gets answer clicked by player and stores it
+    var answerText = clickedButton.textContent; //gets the text in the answer chosen by the player and stores it
 
-    if (answerText === currentQuestion.correctAnswer) {
+    if (answerText === currentQuestion.correctAnswer) { //if answer is chosen is correct
         
-        clickedButton.className = "answer correct";
+        clickedButton.className = "answer correct"; //makes it green
 
-        counterCorrectAnswers ++; 
+        counterCorrectAnswers ++; //adds one to counter
     }
 
-    else {
-        clickedButton.className = "answer incorrect";
+    else { //if answer chosen is incorrect
+        clickedButton.className = "answer incorrect"; //makes answer chosen red
         var rightAnswerIndex;
         
-        for (i=0; i<4; i++) {
+        for (i=0; i<4; i++) { //finds index of correct answer
             if (currentQuestion.correctAnswer === currentQuestion.answers[i]) {
                 rightAnswerIndex = i;
             }
         }
-        var rightAnswer = document.getElementById('answer-' + (rightAnswerIndex + 1));
-        rightAnswer.className = "answer correct";
+        var rightAnswer = document.getElementById('answer-' + (rightAnswerIndex + 1)); //gets id by the index of correct answer
+        rightAnswer.className = "answer correct"; //makes correct answer green
 
     }
 
-    for (i=0; i < answerChosen.length; i++) {
+    for (i=0; i < answerChosen.length; i++) { //removes click from answers after one answer is chosen
         answerChosen[i].removeEventListener('click', checkAnswer);
     }
 
-    if (questions.length == 0) {
+    if (questions.length == 0) { // if there are no more questions, go to result page when click on next button
         next.addEventListener('click', resultPage);
     }
 
-    else {
+    else { //if there are more questions, show next one when click on next button
         next.addEventListener('click', nextQuestion);
     }
-
-    console.log (counterCorrectAnswers);
 }
