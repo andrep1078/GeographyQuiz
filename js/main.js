@@ -70,7 +70,7 @@ var questions = [
     },
     {
         id: 6,
-        question: "What pergentage of the population lives in the Northern Hemisphere?",
+        question: "What percentage of the population lives in the Northern Hemisphere?",
         correctAnswer: "90%",
         answers: [
             '50%',
@@ -159,14 +159,26 @@ function checkAnswer(e) {
         
         clickedButton.className = "answer correct";
 
-        counterCorrectAnswers ++;
-
-        for (i=0; i < answerChosen.length; i++) {
-            answerChosen[i].removeEventListener('click', checkAnswer);
-        }
+        counterCorrectAnswers ++; 
     }
 
     else {
+        clickedButton.className = "answer incorrect";
+        var rightAnswerIndex;
+        
+        for (i=0; i<4; i++) {
+            if (currentQuestion.correctAnswer === currentQuestion.answers[i]) {
+                rightAnswerIndex = i;
+            }
+        }
+        var rightAnswer = document.getElementById('answer-' + (rightAnswerIndex + 1));
+        rightAnswer.className = "answer correct";
 
     }
+
+    for (i=0; i < answerChosen.length; i++) {
+        answerChosen[i].removeEventListener('click', checkAnswer);
+    }
+
+    console.log (counterCorrectAnswers);
 }
